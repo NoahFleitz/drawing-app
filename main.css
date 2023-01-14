@@ -1,17 +1,13 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
+canvas {
+  display: block;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 body{
-    width: 100vw;
     height: 100vh;
-}
-#container{
-   margin: auto;
-}
-#canvas1 {
-background:black;
-width: 600px;
-height: 480px;
+    width: 100vw;
+    background-color:#98FB98;
 }
