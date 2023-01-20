@@ -14,6 +14,8 @@ let isPlaying = false;
 let speedSlider;
 let intervalId;
 
+let img;
+
 function setup() {
   canvas = createCanvas(600, 400);
   canvas.elt.oncontextmenu = function () {
@@ -98,6 +100,11 @@ function draw() {
     }
     line(mouseX, mouseY, pmouseX, pmouseY);
   }
+  if (img != null) //checks if there is an encoaded image
+  {
+    image(img, 0, 0);
+    img = null; //resets image
+  }
 }
 
 function mousePressed() {
@@ -112,3 +119,24 @@ function clearCanvas() {
   clear();
   background(255);
 }
+
+
+
+//----wills dev tools----
+function EncodeCanvas() //converts current frame to base64 string
+{
+canvas.loadPixels();
+Image64 = canvas.canvas.toDataURL();
+//console.log(Image64);
+console.log(Image64);
+}
+
+
+function loadEncodedImage() //converts base 64 to rendered image
+{
+
+imgData = document.getElementById('base64').value; //loads base 64 code
+img = loadImage(imgData);
+document.getElementById('base64').value = "";
+}
+
