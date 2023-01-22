@@ -1,0 +1,21 @@
+#title 
+{
+    color: rgb(160, 220, 47);
+}
+
+body 
+{
+    background-image: url('https://live.staticflickr.com/65535/52636328044_c473524835_k.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Block 
+{
+    padding-top:230px
+}
+
+.Notebook 
+{
+    padding-left: 1200px;
+}

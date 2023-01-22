@@ -1,0 +1,14 @@
+
+    {%extends 'base.html'%}
+    {%block content%}
+        {%load static %} <!--Used to load scripts -->
+        <link rel="stylesheet" href="{%static 'Styles/AnimationStudioStyle.css' %}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+        <script src="{%static 'Scripts/sketch.js'%}"></script>
+        
+        <d1 style="color:brown; font-family: fantasy;">Will's Dev Tools</d1>
+        <button onClick="EncodeCanvas()">Encode Frame</button>
+        <button onClick="loadEncodedImage()">Load Frame</button>
+        <input type="text" id="base64" placeholder="Enter Base64 Code"></input>
+    {%endblock%}
+
