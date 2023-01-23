@@ -13,7 +13,7 @@ let playButton;
 let isPlaying = false;
 let speedSlider;
 let intervalId;
-
+let saveID; //id for saving base 64 value
 let img;
 
 function setup() {
@@ -128,14 +128,14 @@ function EncodeCanvas() //converts current frame to base64 string
 canvas.loadPixels();
 Image64 = canvas.canvas.toDataURL();
 //console.log(Image64);
-console.log(Image64);
+saveID = Image64;
 }
 
 
 function loadEncodedImage() //converts base 64 to rendered image
 {
 
-imgData = document.getElementById('base64').value; //loads base 64 code
+imgData = saveID;
 img = loadImage(imgData);
 document.getElementById('base64').value = "";
 }
