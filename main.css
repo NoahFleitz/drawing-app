@@ -6,9 +6,49 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+#defaultCanvas1{
+  pointer-events: none;
+  opacity: 25%;
+}
 body{
     height: 100vh;
     width: 100vw;
     background-color:#98FB98;
     overflow:hidden;
+}
+#canvasBg{
+  display: block;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  height: 500px;
+  width: 900px;
+}
+#carousel{
+  display:flex;
+  width:80%;
+  margin: 0 auto;
+  position: absolute;
+  top: 87%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline mandatory;
+  scroll-padding-inline: .5em;
+  cursor: grab;
+}
+img{
+  height: 125px;
+  width: 225px;
+  background-color: white;
+  margin:.5em;
+  transition: all .5s;
+  scroll-snap-align: start;
+}
+.current-frame{
+  border-radius: 2px;
 }
