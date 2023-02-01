@@ -1,21 +1,58 @@
-#title 
-{
-    color: rgb(160, 220, 47);
-}
-
-body 
-{
-    background-image: url('https://live.staticflickr.com/65535/52636328044_c473524835_k.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.Block 
-{
-    padding-top:230px
-}
-
-.Notebook 
-{
-    padding-left: 1200px;
-}
+canvas {
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #defaultCanvas1{
+    pointer-events: none;
+    opacity: 25%;
+  }
+  body{
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(to left, #61876E, #3C6255);
+      overflow:hidden;
+  }
+  #canvasBg{
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    height: 500px;
+    width: 900px;
+  }
+  #carousel{
+    display:flex;
+    width:80%;
+    height: 175px;
+    margin: 0 auto;
+    position: absolute;
+    top: 87%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: .5em;
+    cursor: grab;
+  }
+  img{
+    height: 125px;
+    width: 225px;
+    background-color: white;
+    margin:.5em;
+    transition: all .20s;
+    scroll-snap-align: start;
+  }
+  canvas, div,img{
+    border-radius: 2%;
+  }
+  .current-frame{
+    border: 5px solid #A6BB8D;
+  }
