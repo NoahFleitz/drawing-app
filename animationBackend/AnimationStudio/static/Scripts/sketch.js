@@ -1,11 +1,10 @@
 let frames = []; // array to store each frame of the animation
-let currentFrame = 0; // keep track of the current frame being edited
+let currentFrame; // keep track of the current frame being edited
 let addFrameButton;
 let nextFrameButton;
 let prevFrameButton;
 let canvas;
 let isDrawing = false;
-let tool = "pencil";
 let pencilSlider;
 let eraserSlider;
 let clearButton;
@@ -13,17 +12,20 @@ let playButton;
 let isPlaying = false;
 let speedSlider;
 let intervalId;
-let saveID; //id for saving base 64 value
-let img;
-
+let deleteFrameButton;
+let carouselDiv = document.getElementById("carousel");
+let imgElement = document.createElement("img");
+let images = document.querySelectorAll("img[data-index]");
 function setup() {
-  canvas = createCanvas(600, 400);
+  setInterval(updateDomImage, 0);
+  canvas = createCanvas(900, 500);
   canvas.elt.oncontextmenu = function () {
     return false;
   };
-  background(255);
+  background(255, 255, 255, 0);
   canvas.mousePressed(startDrawing);
   canvas.mouseReleased(stopDrawing);
+
   // create buttons for navigating through the frames
   addFrameButton = createButton("Add Frame");
   addFrameButton.mousePressed(addFrame);
@@ -44,28 +46,115 @@ function setup() {
 
   clearButton = createButton("Clear Canvas");
   clearButton.mousePressed(clearCanvas);
+  deleteFrameButton = createButton("Delete Frame");
+  deleteFrameButton.mousePressed(deleteFrame);
+  frames.push(get(0, 0, width, height)); // add current canvas as new frame
+  currentFrame = frames.length - 1; //sets index to 0
+  imgElement = document.createElement("img");
+  imgElement.src = frames[currentFrame].canvas.toDataURL();
+  carouselDiv.appendChild(imgElement);
+  imgElement.setAttribute("data-index", currentFrame);
+  imgElement.classList.add("current-frame");
 }
+function draw() {
+  if (isDrawing && mouseButton === LEFT) {
+    stroke(0);
+    strokeWeight(pencilSlider.value());
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  } else if (isDrawing && mouseButton === RIGHT) {
+    strokeWeight(eraserSlider.value());
+    erase();
+    smooth();
+    line(mouseX, mouseY, pmouseX, pmouseY);
+    noErase();
+  }
+
+  frames[currentFrame] = get(0, 0, width, height);
+  image(frames[currentFrame], 0, 0);
+}
+
+function updateDomImage() {
+  //update the data-index attribute of each img element
+  images.forEach((el, index) => el.setAttribute("data-index", index));
+  //update the images variable to get the most updated images
+  images = document.querySelectorAll("img[data-index]");
+  //check if the currentFrame image exists
+  if (document.querySelector(`img[data-index="${currentFrame}"]`)) {
+    document.querySelector(`img[data-index="${currentFrame}"]`).src =
+      frames[currentFrame].canvas.toDataURL();
+  }
+}
+
 function addFrame() {
   frames.push(get(0, 0, width, height)); // add current canvas as new frame
-  currentFrame = frames.length - 1; // set current frame to the last added frame
+  document
+    .querySelector(`img[data-index="${currentFrame}"]`)
+    .classList.remove("current-frame");
+  currentFrame = frames.length - 1;
   clear(); // clear the canvas
-  background(255); // reset the background color
+  background(255, 255, 255, 0); // reset the background color
+  imgElement = document.createElement("img");
+  imgElement.setAttribute("data-index", currentFrame);
+  imgElement.src = frames[currentFrame].canvas.toDataURL();
+  carouselDiv.appendChild(imgElement);
+  document
+    .querySelector(`img[data-index="${currentFrame}"]`)
+    .classList.add("current-frame");
+  carouselDiv.scrollLeft = carouselDiv.scrollWidth; // scroll to the far right after a frame is added
+  images = document.querySelectorAll("img[data-index]");
+  images.forEach((el) => {
+    el.addEventListener("click", function () {
+      currentFrame = parseInt(this.getAttribute("data-index"));
+      images.forEach((img) => img.classList.remove("current-frame"));
+      this.classList.add("current-frame");
+      clear();
+      image(frames[currentFrame], 0, 0);
+      updateDomImage();
+    });
+  });
 }
+
 function nextFrame() {
+  clear();
+  document
+    .querySelector(`img[data-index="${currentFrame}"]`)
+    .classList.remove("current-frame");
   currentFrame = (currentFrame + 1) % frames.length;
+  document
+    .querySelector(`img[data-index="${currentFrame}"]`)
+    .classList.add("current-frame");
   image(frames[currentFrame], 0, 0);
 }
 
 function prevFrame() {
-  if (currentFrame > 0) {
-    currentFrame--;
-  } else {
-    currentFrame = frames.length - 1;
-  }
+  document
+    .querySelector(`img[data-index="${currentFrame}"]`)
+    .classList.remove("current-frame");
+  currentFrame = currentFrame > 0 ? currentFrame - 1 : frames.length - 1;
+  document
+    .querySelector(`img[data-index="${currentFrame}"]`)
+    .classList.add("current-frame");
   clear();
-  background(255);
+  background(255, 255, 255, 0);
   image(frames[currentFrame], 0, 0);
 }
+function deleteFrame() {
+  clear();
+  if (frames.length > 1) {
+    let temp = currentFrame;
+    frames.splice(currentFrame, 1);
+    document.querySelector(`img[data-index="${temp}"]`).remove();
+    currentFrame--;
+    if (currentFrame < 0) {
+      currentFrame = 0;
+    }
+    document
+      .querySelector(`img[data-index="${currentFrame}"]`)
+      .classList.add("current-frame");
+    image(frames[currentFrame], 0, 0);
+  }
+}
+
 function playAnimation() {
   if (frames.length === 0) {
     return;
@@ -74,10 +163,16 @@ function playAnimation() {
     isPlaying = true;
     playButton.html("Stop Animation");
     intervalId = setInterval(nextFrame, speedSlider.value());
+    tracingCanvas.canvas.style = "display: none";
+    canvas.elt.style = "cursor: not-allowed";
+    canvas.elt.style = "pointer-events: none";
   } else {
     isPlaying = false;
     clearInterval(intervalId);
     playButton.html("Play Animation");
+    tracingCanvas.canvas.style = "display: block";
+    canvas.elt.style = "cursor: initial";
+    canvas.elt.style = "pointer-events: auto";
   }
 }
 
@@ -89,54 +184,40 @@ function stopDrawing() {
   isDrawing = false;
 }
 
-function draw() {
-  if (isDrawing) {
-    if (tool === "pencil") {
-      stroke(0);
-      strokeWeight(pencilSlider.value());
-    } else if (tool === "eraser") {
-      stroke(255);
-      strokeWeight(eraserSlider.value());
-    }
-    line(mouseX, mouseY, pmouseX, pmouseY);
-  }
-  if (img != null) //checks if there is an encoaded image
-  {
-    image(img, 0, 0);
-    img = null; //resets image
-  }
-}
-
-function mousePressed() {
-  if (mouseButton === LEFT) {
-    tool = "pencil";
-  } else if (mouseButton === RIGHT) {
-    tool = "eraser";
-  }
-}
-
 function clearCanvas() {
   clear();
-  background(255);
+  background(255, 255, 255, 0);
 }
+sketch = function (p) {
+  p.setup = function () {
+    p.createCanvas(900, 500);
+  };
+  p.draw = function () {
+    if (currentFrame > 0) {
+      p.clear();
+      p.image(frames[currentFrame - 1], 0, 0);
+    } else {
+      p.clear();
+    }
+  };
+};
+let tracingCanvas = new p5(sketch);
 
-
-
-//----wills dev tools----
-function EncodeCanvas() //converts current frame to base64 string
+function saveData() 
 {
-canvas.loadPixels();
-Image64 = canvas.canvas.toDataURL();
-//console.log(Image64);
-saveID = Image64;
+  formTitle = document.getElementById('Form_Frame');
+  formFRID = document.getElementById('Form_FRID');
+  let frameData // outer JSON layer
+  
+  for (let i = 0; i < frames.length; i++) 
+  { 
+    frameData += `{"frame":"${frames[i].canvas.toDataURL()}"},`;
+  }
+
+  //const obj = JSON.parse(frameData);
+  formFRID.value = "112"
+  
+  formTitle.value = frameData;
+  document.getElementById('saveForm').submit();
+  
 }
-
-
-function loadEncodedImage() //converts base 64 to rendered image
-{
-
-imgData = saveID;
-img = loadImage(imgData);
-document.getElementById('base64').value = "";
-}
-
