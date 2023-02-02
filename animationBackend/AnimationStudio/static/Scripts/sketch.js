@@ -207,17 +207,19 @@ function saveData()
 {
   formTitle = document.getElementById('Form_Frame');
   formFRID = document.getElementById('Form_FRID');
-  let frameData // outer JSON layer
+
   
   for (let i = 0; i < frames.length; i++) 
   { 
     frameData += `{"frame":"${frames[i].canvas.toDataURL()}"},`;
   }
 
-  //const obj = JSON.parse(frameData);
   formFRID.value = "112"
   
   formTitle.value = frameData;
   document.getElementById('saveForm').submit();
-  
 }
+
+
+
+  let frameData // outer JSON layer
