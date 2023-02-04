@@ -5,7 +5,6 @@ let nextFrameButton;
 let prevFrameButton;
 let canvas;
 let isDrawing = false;
-let tool = "pencil";
 let pencilSlider;
 let eraserSlider;
 let clearButton;
@@ -56,6 +55,22 @@ function setup() {
   carouselDiv.appendChild(imgElement);
   imgElement.setAttribute("data-index", currentFrame);
   imgElement.classList.add("current-frame");
+}
+function draw() {
+  if (isDrawing && mouseButton === LEFT) {
+    stroke(0);
+    strokeWeight(pencilSlider.value());
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  } else if (isDrawing && mouseButton === RIGHT) {
+    strokeWeight(eraserSlider.value());
+    erase();
+    smooth();
+    line(mouseX, mouseY, pmouseX, pmouseY);
+    noErase();
+  }
+
+  frames[currentFrame] = get(0, 0, width, height);
+  image(frames[currentFrame], 0, 0);
 }
 
 function updateDomImage() {
@@ -148,10 +163,16 @@ function playAnimation() {
     isPlaying = true;
     playButton.html("Stop Animation");
     intervalId = setInterval(nextFrame, speedSlider.value());
+    tracingCanvas.canvas.style = "display: none";
+    canvas.elt.style = "cursor: not-allowed";
+    canvas.elt.style = "pointer-events: none";
   } else {
     isPlaying = false;
     clearInterval(intervalId);
     playButton.html("Play Animation");
+    tracingCanvas.canvas.style = "display: block";
+    canvas.elt.style = "cursor: initial";
+    canvas.elt.style = "pointer-events: auto";
   }
 }
 
@@ -161,28 +182,6 @@ function startDrawing() {
 
 function stopDrawing() {
   isDrawing = false;
-}
-
-function draw() {
-  if (isDrawing) {
-    if (tool === "pencil") {
-      stroke(0);
-      strokeWeight(pencilSlider.value());
-    } else if (tool === "eraser") {
-      stroke(255);
-      strokeWeight(eraserSlider.value());
-    }
-    line(mouseX, mouseY, pmouseX, pmouseY);
-  }
-  frames[currentFrame] = get(0, 0, width, height);
-  image(frames[currentFrame], 0, 0);
-}
-function mousePressed() {
-  if (mouseButton === LEFT) {
-    tool = "pencil";
-  } else if (mouseButton === RIGHT) {
-    tool = "eraser";
-  }
 }
 
 function clearCanvas() {

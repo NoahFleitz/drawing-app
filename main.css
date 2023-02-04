@@ -13,7 +13,7 @@ canvas {
 body{
     height: 100vh;
     width: 100vw;
-    background-color:#98FB98;
+    background: linear-gradient(to left, #61876E, #3C6255);
     overflow:hidden;
 }
 #canvasBg{
@@ -30,6 +30,7 @@ body{
 #carousel{
   display:flex;
   width:80%;
+  height: 175px;
   margin: 0 auto;
   position: absolute;
   top: 87%;
@@ -46,9 +47,12 @@ img{
   width: 225px;
   background-color: white;
   margin:.5em;
-  transition: all .5s;
+  transition: all .20s;
   scroll-snap-align: start;
 }
+canvas, div,img{
+  border-radius: 2%;
+}
 .current-frame{
-  border-radius: 2px;
+  border: 5px solid #A6BB8D;
 }
