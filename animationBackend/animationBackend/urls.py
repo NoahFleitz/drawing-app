@@ -15,11 +15,17 @@ Including another URLconf
 """
 from AnimationStudio.views import homeView, animationStudioView
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from login import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',homeView),
+    path('',homeView, name="home"),
     path('studio/',animationStudioView),
+    path('login/',views.login_request,name='login'),
+    path('logout/',auth_views.LogoutView.as_view(),name='logout'),
+    path('social-auth/', include('social_django.urls',namespace="social")),
+
 ]
