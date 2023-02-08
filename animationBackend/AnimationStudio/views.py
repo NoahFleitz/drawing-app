@@ -7,7 +7,7 @@ import json
 
 
 def homeView(request, *args, **kwargs):
-    ctx = {'Message': AnimationInfo.objects.get(id=1)} #values that can be passed into page
+    ctx = {} #values that can be passed into page
     return render(request,"Home.html",ctx)
 
 def animationStudioView(request, *args, **kwargs):

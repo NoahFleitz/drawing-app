@@ -9,9 +9,9 @@
         <div id="canvasBg"></div>
         <div id="carousel"></div>
         <script src="{%static 'Scripts/sketch.js'%}"></script>
-        <form action="." method="POST" id="saveForm"> {%csrf_token%}
+        <form action="." method="POST" id="saveForm" onsubmit="refresh()"> {%csrf_token%}
             {{form.as_p}} <!--Hidden Form-->
-            <button onclick="saveData()">Save</button>
+            <button onclick="saveData()">Save and Close</button>
         </form>
     {%endblock%}
 
