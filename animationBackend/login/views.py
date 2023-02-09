@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 import requests
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 auth_url = "https://discord.com/api/oauth2/authorize?client_id=1072731726687780895&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify"
@@ -9,9 +10,10 @@ def discord_login(request:HttpRequest):
     return redirect (auth_url)
 
 def discord_login_redirect(request: HttpRequest):
-    code  = request.GET.get('code')
+    code  = request.GET.get('code') #gets the code returned from Discord
     print(code)
-    user = exchnage_code(code)
+    user = exchnage_code(code) #runs the exchnage function
+    authenticate(request, user=user) #calls costom authenticateion of found user
     return(JsonResponse({"user":user}))
 
 
@@ -30,12 +32,12 @@ def exchnage_code(code: str):
         "Content-Type":'application/x-www-form-urlencoded'
     }
 
-    response  = requests.post("https://discord.com/api/oauth2/token", data=data, headers=headers)
-    credentials = response.json()
-    access_token = credentials['access_token']
-    response = requests.get('https://discord.com/api/v10/users/@me', headers = { 'Authorization':'Bearer %s' % access_token})
+    response  = requests.post("https://discord.com/api/oauth2/token", data=data, headers=headers) #send token
+    credentials = response.json() #converts to json
+    access_token = credentials['access_token'] #saves access token
+    response = requests.get('https://discord.com/api/v10/users/@me', headers = { 'Authorization':'Bearer %s' % access_token}) #gets user info by sending token
     print(response)
-    user  = response.json()
-    print(user)
+    user  = response.json() 
+    #print(user)
     return user
     

@@ -28,6 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+AUTHENTICATION_BACKENDS = [
+'login.auth.DiscordAuthenticationBackend' #tells DJANGO we are using our own authenticate methiod
+
+]
+
+
 # Application definition
 
 INSTALLED_APPS = [
