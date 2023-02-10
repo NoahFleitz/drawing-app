@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import AnimationData,AnimationInfo
 from .forms import saveAnimation
 import json
+import django.contrib.auth
 # Create your views here.
 
 
@@ -30,5 +31,5 @@ def animationStudioView(request, *args, **kwargs):
 
 
 
-    context = {'form':saveForm}
+    context = {'form':saveForm, 'user':request.user.is_authenticated}
     return render(request,"AnimationStudio.html",context)

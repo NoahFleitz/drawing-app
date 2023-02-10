@@ -9,3 +9,9 @@ class DiscordAuthenticationBackend(BaseBackend):
             new_user = discordUser.objects.create_new_discord_user(user) #adds user to database since they do not exist
             return(new_user)
         return(find_user) #if user is found in the database
+    
+    def get_user(self,user_id):
+        try:
+            return(discordUser.objects.get(pk=user_id))
+        except discordUser.DoesNotExist:
+            return (None)

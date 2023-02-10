@@ -23,5 +23,6 @@ urlpatterns = [
     path('',homeView),
     path('studio/',animationStudioView),
     path('oauth2/login',views.discord_login),
-    path('oauth2/login/redirect',views.discord_login_redirect)
+    path('oauth2/login/redirect',views.discord_login_redirect),
+    path('oauth2/user', views.get_authenticated_user)
 ]
