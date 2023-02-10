@@ -13,5 +13,5 @@ class discordUser(models.Model):
     mfa_enabled = models.BooleanField()
     last_login = models.DateTimeField(null=True)
 
-    def is_authenticated(self,request):
+    def is_authenticated(self,request): 
         return(True)

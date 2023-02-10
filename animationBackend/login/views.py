@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="/oauth2/login") #function only works if user is logged in send to login if not logged in
 def get_authenticated_user(request: HttpRequest):
-    return(JsonResponse({"msg":"Authenticated"}))
+    return(redirect("/home"))
 
 
 
@@ -23,7 +23,6 @@ def discord_login_redirect(request: HttpRequest):
     discord_user  = list(discord_user).pop() #gets the specfic user from query set
     login(request,discord_user) #loggs in user
     return(redirect("/oauth2/user"))
-
 
 
 def exchnage_code(code: str):
@@ -45,6 +44,5 @@ def exchnage_code(code: str):
     access_token = credentials['access_token'] #saves access token
     response = requests.get('https://discord.com/api/v10/users/@me', headers = { 'Authorization':'Bearer %s' % access_token}) #gets user info by sending token
     user  = response.json() 
-    #print(user)
     return user
     

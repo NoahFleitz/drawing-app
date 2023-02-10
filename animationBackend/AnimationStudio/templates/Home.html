@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {%block content%}
-{%load static %} 
-<link rel="stylesheet" href="{%static 'Styles/homeStyle.css' %}">
-<h1 id="title">Let's Get Flipping!</h1>
-<h1>Hello {{user}}</h1>
+    {%load static %} 
+    <link rel="stylesheet" href="{%static 'Styles/homeStyle.css' %}">
+    <h1 id="title">Let's Get Flipping!</h1>
+
+
+{%endblock%}
+
+
+{%block username%}
+    {%if Username == "Guest"%}
+    Welcome {{Username}}
+    {%else%}
+    Welcome Back {{Username}}
+    {%endif%}
 {%endblock%}

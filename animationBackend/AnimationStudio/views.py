@@ -2,21 +2,19 @@ from django.shortcuts import render
 from .models import AnimationData,AnimationInfo
 from .forms import saveAnimation
 import json
-import django.contrib.auth
+from login.models import discordUser
 # Create your views here.
 
-
-
 def homeView(request, *args, **kwargs):
-    ctx = {} #values that can be passed into page
-    return render(request,"Home.html",ctx)
+    return render(request,"Home.html",{"Username":getUsername(request)})
 
 def animationStudioView(request, *args, **kwargs):
+    
     saveForm = saveAnimation()
     if request.method == "POST":
         saveForm = saveAnimation(request.POST)
         if saveForm.is_valid():
-
+            
             frames  = saveForm.cleaned_data["frame"][9:-1]
 
             frameJson = '''
@@ -31,5 +29,16 @@ def animationStudioView(request, *args, **kwargs):
 
 
 
-    context = {'form':saveForm, 'user':request.user.is_authenticated}
+    context = {'form':saveForm, "Username":getUsername(request)}
     return render(request,"AnimationStudio.html",context)
+
+
+#my sketchy way to convert user object to string
+def getUsername(request): 
+    if request.user.is_authenticated:
+        user  = str(request.user)
+        username = user[20:len(user)-1]
+        return discordUser.objects.get(id=username).discord_tag
+    else:
+        return "Guest"
+    
