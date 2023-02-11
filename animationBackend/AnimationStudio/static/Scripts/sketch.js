@@ -206,7 +206,6 @@ let tracingCanvas = new p5(sketch);
 function saveData() 
 {
   formTitle = document.getElementById('Form_Frame');
-  formFRID = document.getElementById('Form_FRID');
 
   
   for (let i = 0; i < frames.length; i++) 
@@ -214,7 +213,6 @@ function saveData()
     frameData += `{"frame":"${frames[i].canvas.toDataURL()}"},`;
   }
 
-  formFRID.value = "112"
   
   formTitle.value = frameData;
   document.getElementById('saveForm').submit();
