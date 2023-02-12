@@ -7,12 +7,6 @@ class AnimationData(models.Model):
 
 
 
-class AnimationInfo(models.Model):
-    Username = models.CharField(max_length=200)
-    FRID = models.CharField(max_length=6)
-    Description = models.TextField()
-
-
 
 
 

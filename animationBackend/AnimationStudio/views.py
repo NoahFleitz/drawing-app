@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import AnimationData,AnimationInfo
+from .models import AnimationData
 from .forms import saveAnimation
 import json
 from login.models import discordUser
