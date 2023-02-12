@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 def homeView(request, *args, **kwargs):
     return render(request,"Home.html",{"Username":getUsername(request)})
 
+@login_required(login_url="/oauth2/login") #function only works if user is logged in send to login if not logged in
 def animationStudioView(request, *args, **kwargs):
     
     saveForm = saveAnimation()
@@ -27,11 +28,13 @@ def animationStudioView(request, *args, **kwargs):
             '''
             AnimationData.objects.create(frame=frameJson,UID=getID(request),Title=saveForm.cleaned_data['title'])
             #x = json.loads(frameJson)
-
-    context = {'form':saveForm, "Username":getUsername(request)}
+    userAnimationList = AnimationData.objects.filter(UID=getID(request))
+    context = {'form':saveForm, "Username":getUsername(request),"userAnimationList":userAnimationList}
     return render(request,"AnimationStudio.html",context)
 
-@login_required(login_url="/oauth2/login") #function only works if user is logged in send to login if not logged in
+
+
+
 def loadAnimationView(request, *args, **kwargs):
     userAnimationList = AnimationData.objects.filter(UID=getID(request))
     ctx  = {"Username":getUsername(request), "userAnimationList":userAnimationList}
