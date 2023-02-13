@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import AnimationData
-from .forms import saveAnimation
+from .forms import saveAnimation, loadAnimation
 import json
 from login.models import discordUser
 # Create your views here.
@@ -12,9 +12,13 @@ def homeView(request, *args, **kwargs):
 @login_required(login_url="/oauth2/login") #function only works if user is logged in send to login if not logged in
 def animationStudioView(request, *args, **kwargs):
     
+
+    loadForm = loadAnimation()
     saveForm = saveAnimation()
     if request.method == "POST":
         saveForm = saveAnimation(request.POST)
+        loadForm = loadAnimation(request.POST)
+        print("Check Point")
         if saveForm.is_valid():
             
             frames  = saveForm.cleaned_data["frame"][9:-1]
@@ -27,9 +31,13 @@ def animationStudioView(request, *args, **kwargs):
             }
             '''
             AnimationData.objects.create(frame=frameJson,UID=getID(request),Title=saveForm.cleaned_data['title'])
-            #x = json.loads(frameJson)
+        elif loadForm.is_valid():
+            print("POST")
+
+
+
     userAnimationList = AnimationData.objects.filter(UID=getID(request))
-    context = {'form':saveForm, "Username":getUsername(request),"userAnimationList":userAnimationList}
+    context = {'Saveform':saveForm,'loadForm':loadForm, "Username":getUsername(request),"userAnimationList":userAnimationList}
     return render(request,"AnimationStudio.html",context)
 
 

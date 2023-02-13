@@ -216,8 +216,15 @@ function saveData()
   
   formTitle.value = frameData;
   document.getElementById('saveForm').submit();
+  formTitle.value = "";
 }
 
+let frameData // outer JSON layer
 
+function loadData(id) 
+{
+  document.getElementById('Form_Load').value = id; //sets load ID
+  alert("test")
+  document.getElementById('loadForm').submit();
+}
 
-  let frameData // outer JSON layer
