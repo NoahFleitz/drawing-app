@@ -37,9 +37,8 @@
 
                 <ul>
                     {%for animationList in userAnimationList%}
-                    <input type="radio" id="{{animationList.id}}" name="animationList" onclick="loadData(this.id)" data-bs-dismiss="modal"/>
-                    <label for="{{animationList.id}}">{{animationList.Title}}</label>
-                    <br>
+                        <button id="{{animationList.id}}" onclick="loadData({{animationList.id}})">{{animationList.Title}}</button>
+                        <br>
                     {%endfor%}
                     <ul>
             </div>

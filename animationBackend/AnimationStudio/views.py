@@ -18,7 +18,6 @@ def animationStudioView(request, *args, **kwargs):
     if request.method == "POST":
         saveForm = saveAnimation(request.POST)
         loadForm = loadAnimation(request.POST)
-        print("Check Point")
         if saveForm.is_valid():
             
             frames  = saveForm.cleaned_data["frame"][9:-1]
@@ -32,7 +31,8 @@ def animationStudioView(request, *args, **kwargs):
             '''
             AnimationData.objects.create(frame=frameJson,UID=getID(request),Title=saveForm.cleaned_data['title'])
         elif loadForm.is_valid():
-            print("POST")
+            print("--------------------------")
+            print("------"+loadForm.cleaned_data['id'])
 
 
 

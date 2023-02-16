@@ -5,4 +5,4 @@ class saveAnimation(forms.Form):
     title = forms.CharField()
 
 class loadAnimation(forms.Form):
-    id = forms.CharField(widget = forms.HiddenInput({'id':'Form_Load'}),required=False)
+    id = forms.CharField(widget = forms.HiddenInput(attrs={'id':'Form_Load'}),required=False)
