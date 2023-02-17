@@ -8,6 +8,7 @@
 <!-- Button trigger modal -->
 <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Load Animation</button>
 <form action="." method="POST" id="saveForm" onsubmit="refresh()"> {%csrf_token%}
+    <input type="hidden" name="name" value="save"> <!--Name to be passed to server-->
     {{Saveform.as_p}}
     <!--Hidden Form-->
     <button onclick="saveData()">Save and Close</button>
@@ -37,16 +38,29 @@
 
                 <ul>
                     {%for animationList in userAnimationList%}
-                        <button id="{{animationList.id}}" onclick="loadData({{animationList.id}})">{{animationList.Title}}</button>
+                        <button id="{{animationList.id}}" onclick="loadData(this)">{{animationList.Title}}</button> 
                         <br>
                     {%endfor%}
-                    <ul>
+                <ul>
+            
+                    <form action="." method="POST" id="loadForm" onsubmit="refresh()"> {%csrf_token%}
+                        <input type="hidden" name="name" value="load"> <!--Name to be passed to server-->
+                        {{loadForm.as_p}}
+                        <!--Hidden Form-->
+                    </form>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
+
+
+
+{%if loadedFrames != ""%}
+    <textarea id="loaded_Frames" style="display:none">{{loadedFrames}}</textarea>
+    <script>insertJSON()</script>
+{%endif%}
 
 
 

@@ -13,15 +13,12 @@ def homeView(request, *args, **kwargs):
 def animationStudioView(request, *args, **kwargs):
     
 
-    loadForm = loadAnimation()
+    #calls if user world like to save their form
     saveForm = saveAnimation()
-    if request.method == "POST":
+    if request.method == "POST" and request.POST.get('name') == "save":
         saveForm = saveAnimation(request.POST)
-        loadForm = loadAnimation(request.POST)
-        if saveForm.is_valid():
-            
-            frames  = saveForm.cleaned_data["frame"][9:-1]
-
+        if saveForm.is_valid():   
+            frames = saveForm.cleaned_data["frame"][9:-1]
             frameJson = '''
             {
                 "Frame_Data": [
@@ -30,14 +27,19 @@ def animationStudioView(request, *args, **kwargs):
             }
             '''
             AnimationData.objects.create(frame=frameJson,UID=getID(request),Title=saveForm.cleaned_data['title'])
-        elif loadForm.is_valid():
-            print("--------------------------")
-            print("------"+loadForm.cleaned_data['id'])
-
-
-
+    
+    loadFrame = ""
+    #calls if user world load to load one of their animations
+    loadForm = loadAnimation()
+    if request.method == "POST" and request.POST.get('name') == "load":
+        loadForm = loadAnimation(request.POST)
+        if loadForm.is_valid():
+            loadedJson = AnimationData.objects.filter(id=loadForm.cleaned_data['id'])
+            #print(loadedJson[0].frame)
+            loadFrame = loadedJson[0].frame #loads frame to templete
+            
     userAnimationList = AnimationData.objects.filter(UID=getID(request))
-    context = {'Saveform':saveForm,'loadForm':loadForm, "Username":getUsername(request),"userAnimationList":userAnimationList}
+    context = {'Saveform':saveForm,'loadForm':loadForm, "Username":getUsername(request),"userAnimationList":userAnimationList,"loadedFrames":loadFrame}
     return render(request,"AnimationStudio.html",context)
 
 

@@ -16,6 +16,7 @@ let deleteFrameButton;
 let carouselDiv = document.getElementById("carousel");
 let imgElement = document.createElement("img");
 let images = document.querySelectorAll("img[data-index]");
+
 function setup() {
   setInterval(updateDomImage, 0);
   canvas = createCanvas(900, 500);
@@ -212,19 +213,39 @@ function saveData()
   { 
     frameData += `{"frame":"${frames[i].canvas.toDataURL()}"},`;
   }
-
+  
   
   formTitle.value = frameData;
+  
+  document.getElementById('Form_Frame')="";
   document.getElementById('saveForm').submit();
-  formTitle.value = "";
 }
 
 let frameData // outer JSON layer
-
-function loadData(id) 
+loadedFrame  = false;
+function loadData(btn) 
 {
-  document.getElementById('Form_Load').value = id; //sets load ID
-  alert("test")
+  document.getElementById('Form_Load').value = btn.id; //sets load ID
+  loadedFrame = true;
   document.getElementById('loadForm').submit();
 }
+
+
+function insertJSON() 
+{
+  jsonFrames = document.getElementById('loaded_Frames');
+  const obj = JSON.parse(jsonFrames.innerText);
+  frameLength = parseInt(obj.Frame_Data.length)
+  for (let i = 0; i < frameLength; i++) 
+  {
+    alert(obj.Frame_Data[i].frame);
+    
+  }
+  console.log(frames);
+  jsonFrames.innerHTML = "";
+}
+
+
+
+
 
