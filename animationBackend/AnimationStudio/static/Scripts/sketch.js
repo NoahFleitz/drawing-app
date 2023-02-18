@@ -238,10 +238,9 @@ function insertJSON()
   frameLength = parseInt(obj.Frame_Data.length)
   for (let i = 0; i < frameLength; i++) 
   {
-    alert(obj.Frame_Data[i].frame);
-    
+    console.log(obj.Frame_Data[i].frame);
+    addFrame();
   }
-  console.log(frames);
   jsonFrames.innerHTML = "";
 }
 
