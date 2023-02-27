@@ -1,3 +1,4 @@
+
 {%extends 'base.html'%}
 {%block content%}
 {%load static %}
@@ -56,12 +57,12 @@
 </div>
 
 <script src="{%static 'Scripts/sketch.js'%}"></script>
+<script src="{%static 'Scripts/dataIO.js'%}"></script>
 
 {%if loadedFrames != ""%}
     <textarea id="loaded_Frames" style="display:none">{{loadedFrames}}</textarea>
     <script>insertJSON()</script>
 {%endif%}
-
 
 
 {%endblock%}

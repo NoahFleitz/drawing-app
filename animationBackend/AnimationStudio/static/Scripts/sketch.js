@@ -204,45 +204,8 @@ sketch = function (p) {
 };
 let tracingCanvas = new p5(sketch);
 
-function saveData() 
-{
-  formTitle = document.getElementById('Form_Frame');
-
-  
-  for (let i = 0; i < frames.length; i++) 
-  { 
-    frameData += `{"frame":"${frames[i].canvas.toDataURL()}"},`;
-  }
-  
-  
-  formTitle.value = frameData;
-  
-  document.getElementById('Form_Frame')="";
-  document.getElementById('saveForm').submit();
-}
-
-let frameData // outer JSON layer
-loadedFrame  = false;
-function loadData(btn) 
-{
-  document.getElementById('Form_Load').value = btn.id; //sets load ID
-  loadedFrame = true;
-  document.getElementById('loadForm').submit();
-}
 
 
-function insertJSON() 
-{
-  jsonFrames = document.getElementById('loaded_Frames');
-  const obj = JSON.parse(jsonFrames.innerText);
-  frameLength = parseInt(obj.Frame_Data.length)
-  for (let i = 0; i < frameLength; i++) 
-  {
-    console.log(obj.Frame_Data[i].frame);
-    addFrame();
-  }
-  jsonFrames.innerHTML = "";
-}
 
 
 
