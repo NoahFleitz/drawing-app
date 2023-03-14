@@ -10,7 +10,7 @@ function saveData()
 {
   let frameData // outer JSON layer
   formTitle = document.getElementById('Form_Frame');
-  frameData = "";
+  frameData = '{"frame":';
   
   for (let i = 0; i < frames.length; i++) 
   { 
@@ -38,7 +38,7 @@ function insertJSON()
 {
   jsonFrames = document.getElementById('loaded_Frames');
   const obj = JSON.parse(jsonFrames.innerText);
-  frameLength = parseInt(obj.Frame_Data.length)
+  frameLength = obj.Frame_Data.length
   for (let i = 0; i < frameLength; i++) 
   {
     console.log(obj.Frame_Data[i].frame);

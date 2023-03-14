@@ -20,11 +20,13 @@ def animationStudioView(request, *args, **kwargs):
         if saveForm.is_valid():   
             frames = saveForm.cleaned_data["frame"][9:-1]
             frameJson = '''
-            [
-                {"Frame_Data": 
+            {
+                "Frame_Data": [ 
                 '''+ frames +'''
             ]
+            }
             '''
+            #print(frameJson)
             AnimationData.objects.create(frame=frameJson,UID=getID(request),Title=saveForm.cleaned_data['title'])
     
     loadFrame = ""
