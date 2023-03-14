@@ -5,21 +5,20 @@
     <h1>Let's Get Flipping!</h1>
 
     <div class="box">
-        <h1>Hello 2</h1>
-    </div>
-    
-    <div class="box">
-        <h1>Hello 2</h1>
+        <h1 class="center-text">Welcome Back {{Username}}</h1>
+        <h1 class="center-text">Ready to get flipping?</h1>
     </div>
 
+    <br>
+    <div class="box">
+        <h1 class="center-text">Featured Animations for March</h1>
+    </div>
     
 {%endblock%}
 
 
 {%block username%}
-    {%if Username == "Guest"%}
-    Welcome {{Username}}
-    {%else%}
+    {%if Username != "Guest"%}
     Welcome Back {{Username}}
     {%endif%}
 {%endblock%}
