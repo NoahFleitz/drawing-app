@@ -28,6 +28,7 @@ function saveData()
 //loads 
 function loadData(btn) 
 {
+  
   document.getElementById('Form_Load').value = btn.id; //sets load ID
   loadedFrame = true;
   document.getElementById('loadForm').submit();
@@ -39,10 +40,14 @@ function insertJSON()
   jsonFrames = document.getElementById('loaded_Frames');
   const obj = JSON.parse(jsonFrames.innerText);
   frameLength = obj.Frame_Data.length
-  for (let i = 0; i < frameLength; i++) 
-  {
-    console.log(obj.Frame_Data[i].frame);
-    //addFrame(); current error
+    for (let i = 0; i < frameLength; i++) 
+    {
+      
+      sketch.newFrame();
+      console.log(frames);
+    }
+    jsonFrames.innerHTML = "";
+    //NF  = document.getElementById("addFrame");
+    //console.log(NF);
   }
-  jsonFrames.innerHTML = "";
-}
+

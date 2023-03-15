@@ -8,7 +8,7 @@
 
 <!-- Button trigger modal -->
 <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Load Animation</button>
-<form action="." method="POST" id="saveForm" onsubmit="refresh()"> {%csrf_token%}
+<form action="." method="POST" id="saveForm" onsubmit="#"> {%csrf_token%} <!--refresh-->
     <input type="hidden" name="name" value="save"> <!--Name to be passed to server-->
     {{Saveform.as_p}}
     <!--Hidden Form-->
@@ -39,7 +39,7 @@
 
                 <ul>
                     {%for animationList in userAnimationList%}
-                        <button id="{{animationList.id}}" onclick="loadData(this)">{{animationList.Title}}</button> 
+                        <button id="{{animationList.id}}" onclick="return loadData(this)">{{animationList.Title}}</button> 
                         <br>
                     {%endfor%}
                 <ul>
@@ -56,14 +56,12 @@
     </div>
 </div>
 
-<script src="{%static 'Scripts/sketch.js'%}"></script>
 <script src="{%static 'Scripts/dataIO.js'%}"></script>
-
+<script src="{%static 'Scripts/sketch.js'%}"></script>
 {%if loadedFrames != ""%}
     <textarea id="loaded_Frames" style="display:none">{{loadedFrames}}</textarea>
     <script>insertJSON()</script>
 {%endif%}
-
 
 {%endblock%}
 
