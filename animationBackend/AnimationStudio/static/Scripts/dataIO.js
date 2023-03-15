@@ -25,14 +25,19 @@ function saveData()
 }
 
 
+
+
 //loads 
 function loadData(btn) 
 {
-  
   document.getElementById('Form_Load').value = btn.id; //sets load ID
   loadedFrame = true;
-  document.getElementById('loadForm').submit();
+  
+  document.getElementById('loadForm').submit(); //page refreshes when form is submitted causing error, I need AJAX
 }
+
+
+
 
 //triggers after code is loaded to page from backend
 function insertJSON() 
@@ -42,12 +47,12 @@ function insertJSON()
   frameLength = obj.Frame_Data.length
     for (let i = 0; i < frameLength; i++) 
     {
-      
-      sketch.newFrame();
-      console.log(frames);
+    
+      console.log("T");
     }
     jsonFrames.innerHTML = "";
-    //NF  = document.getElementById("addFrame");
-    //console.log(NF);
+    
+    
+    
   }
 

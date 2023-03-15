@@ -29,6 +29,7 @@ function setup() {
 
   // create buttons for navigating through the frames
   addFrameButton = createButton("Add Frame");
+  addFrameButton.id = "NF";
   addFrameButton.mousePressed(addFrame);
   playButton = createButton("Play Animation");
   playButton.mousePressed(playAnimation);

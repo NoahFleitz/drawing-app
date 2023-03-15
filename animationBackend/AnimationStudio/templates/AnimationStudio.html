@@ -8,7 +8,7 @@
 
 <!-- Button trigger modal -->
 <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Load Animation</button>
-<form action="." method="POST" id="saveForm" onsubmit="#"> {%csrf_token%} <!--refresh-->
+<form action="." method="POST" id="saveForm" onsubmit="submitForm()"> {%csrf_token%} <!--refresh-->
     <input type="hidden" name="name" value="save"> <!--Name to be passed to server-->
     {{Saveform.as_p}}
     <!--Hidden Form-->
@@ -43,8 +43,11 @@
                         <br>
                     {%endfor%}
                 <ul>
-            
-                    <form action="." method="POST" id="loadForm" onsubmit="refresh()"> {%csrf_token%}
+                    
+                
+
+                    
+                    <form action="." method="POST" id="loadForm" onsubmit="#"> {%csrf_token%}
                         <input type="hidden" name="name" value="load"> <!--Name to be passed to server-->
                         {{loadForm.as_p}}
                         <!--Hidden Form-->
