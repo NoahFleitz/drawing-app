@@ -5,7 +5,7 @@
 <!--Used to load scripts -->
 <link rel="stylesheet" href="{%static 'Styles/AnimationStudioStyle.css' %}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <!-- Button trigger modal -->
 <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Load Animation</button>
 <form action="." method="POST" id="saveForm" onsubmit="submitForm()"> {%csrf_token%} <!--refresh-->
@@ -39,7 +39,7 @@
 
                 <ul>
                     {%for animationList in userAnimationList%}
-                        <button id="{{animationList.id}}" onclick="return loadData(this)">{{animationList.Title}}</button> 
+                        <button id="{{animationList.id}}" class="formOption" onclick="return loadData(this)">{{animationList.Title}}</button> 
                         <br>
                     {%endfor%}
                 <ul>
@@ -61,6 +61,7 @@
 
 <script src="{%static 'Scripts/dataIO.js'%}"></script>
 <script src="{%static 'Scripts/sketch.js'%}"></script>
+<H1>{{time}}</h1>
 {%if loadedFrames != ""%}
     <textarea id="loaded_Frames" style="display:none">{{loadedFrames}}</textarea>
     <script>insertJSON()</script>

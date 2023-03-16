@@ -2,6 +2,11 @@ from django.shortcuts import render
 from .models import AnimationData
 from .forms import saveAnimation, loadAnimation
 import json
+
+
+from time import time
+from django.http import JsonResponse
+
 from login.models import discordUser
 # Create your views here.
 from django.contrib.auth.decorators import login_required
@@ -39,10 +44,28 @@ def animationStudioView(request, *args, **kwargs):
             #print(loadedJson[0].frame)
             loadFrame = loadedJson[0].frame #loads frame to templete
             
+            
+            
+    
+      
+    
+
+    if is_ajax(request):
+
+        ID = request.GET.get('message') 
+
+        t = time()
+        loadedJson = AnimationData.objects.filter(id=ID)
+        res = loadedJson[0].frame
+        return JsonResponse({'frames':res},status=200)
+
     userAnimationList = AnimationData.objects.filter(UID=getID(request))
     context = {'Saveform':saveForm,'loadForm':loadForm, "Username":getUsername(request),"userAnimationList":userAnimationList,"loadedFrames":loadFrame}
+    
     return render(request,"AnimationStudio.html",context)
-
+   
+    
+    
 
 
 
@@ -70,3 +93,12 @@ def getID(request):
         return username
     else:
         return "Guest"
+
+
+
+#I like this function and want to keep it
+def is_ajax(request):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return(True)
+    else:
+        return(False)

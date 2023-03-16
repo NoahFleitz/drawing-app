@@ -16,7 +16,7 @@ let deleteFrameButton;
 let carouselDiv = document.getElementById("carousel");
 let imgElement = document.createElement("img");
 let images = document.querySelectorAll("img[data-index]");
-
+let img = null
 function setup() {
   setInterval(updateDomImage, 0);
   canvas = createCanvas(900, 500);
@@ -59,6 +59,8 @@ function setup() {
   imgElement.classList.add("current-frame");
 }
 function draw() {
+  
+
   if (isDrawing && mouseButton === LEFT) {
     stroke(0);
     strokeWeight(pencilSlider.value());
@@ -70,10 +72,10 @@ function draw() {
     line(mouseX, mouseY, pmouseX, pmouseY);
     noErase();
   }
+    frames[currentFrame] = get(0, 0, width, height);
+    image(frames[currentFrame], 0, 0);
+  }
 
-  frames[currentFrame] = get(0, 0, width, height);
-  image(frames[currentFrame], 0, 0);
-}
 
 function updateDomImage() {
   //update the data-index attribute of each img element
