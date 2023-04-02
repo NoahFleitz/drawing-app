@@ -59,7 +59,6 @@ $(document).ready(function (){
             document.querySelector(`img[data-index="${currentFrame}"]`).src = obj.Frame_Data[i].frame;
             //img = loadImage(dataURL); 
             //image(img, 0, 0);
-
             nextFrame();
           }
 
