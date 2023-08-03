@@ -119,15 +119,15 @@ function addFrame() {
 }
 
 function nextFrame() {
-  clear();
+  clear(); //clears canvas
   document
     .querySelector(`img[data-index="${currentFrame}"]`)
-    .classList.remove("current-frame");
-  currentFrame = (currentFrame + 1) % frames.length;
+    .classList.remove("current-frame"); //removes the class current frame from frame
+  currentFrame = (currentFrame + 1) % frames.length; //increments the current frame
   document
     .querySelector(`img[data-index="${currentFrame}"]`)
-    .classList.add("current-frame");
-  image(frames[currentFrame], 0, 0);
+    .classList.add("current-frame"); //adds current frame class
+  image(frames[currentFrame], 0, 0); //loads image saved in the array
 }
 
 function prevFrame() {

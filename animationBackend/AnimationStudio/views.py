@@ -49,7 +49,7 @@ def animationStudioView(request, *args, **kwargs):
     
       
     
-
+    #Load from DB to Canvas
     if is_ajax(request):
 
         ID = request.GET.get('message') 
